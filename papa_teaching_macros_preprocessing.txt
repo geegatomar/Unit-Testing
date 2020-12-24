@@ -1,0 +1,31 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+What are MACROS?
+
+According to wikipedia: "A macro is a fragment of code which has been given a name".
+So, a very famous example of a macro is ASSERT. We use the "macro" similiar to calling a function for example :  assert(2 > 3);    Here, though assert looks like its a function, but its not a function, and its actually called a MACRO (due to the following reasons as mentioned below). 
+So assert is defined in 'assert.h' header file which is included by adding #include<assert.h> to your code. Here the #include is called a "PREPROCESSING DIRECTIVE". All the preprocessing directives such as #define and #include are done at preprocessing time (#include and #define both literelly paste(replace) that part of code). So the 'assert' macro is defined in 'assert.h' header file as #define assert(condition) ... where it takes a condition as an argument. This is the format of defining a macro. 
+
+
+
+Why is assert defined as a macro, and not as a function?
+
+Assert's functionality is to throw an exception whenever the condition given in assert is false (assert is used in debugging your code). Hence, a very important part of assert's functionality is to give the exact line number at which the assert failed. The line number is obtained by the predefined variable __LINE__ whose value is replaced at the preprocessing time. If assert was a function, then when it would be called, the __LINE__ number would give the line of the function and not the line at which the assert is called. And this is the main reason why macros are made. In macros, the entire assert() part is defined in #define, hence will be replaced during preprocessing time itslef, hence the __LINE__ variable value gives the correct line of where the assert threw an exception.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1. myassert() here is a macro
+
+	#define myassert(cond) \
+		if (!(cond)) \
+		{\
+			cout << "assert failed at line " << __LINE__ << endl;\
+		}
+
+2. Whereas myassert() here is function
+	void myassert(bool cond)
+	{
+		if (!(cond))
+			cout << "assert failed at line " << __LINE__ << endl;\
+	}
+
+==========================================================================================================================================================================
